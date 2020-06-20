@@ -1,26 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
+import 'materialize-css/dist/css/materialize.min.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css'
+import Table from './Table';
+import Form from './Form';
+import Header from './Header';
+
+class App extends Component {
+
+  state = {
+    authors :  [
+      {
+        name: 'Paulo',
+        book: 'React',
+        price: '1000'
+      },
+      {
+        name: 'Daniel',
+        book: 'Java',
+        price: '99'
+      },
+      {
+        name: 'Marcos',
+        book: 'Design',
+        price: '150'
+      },
+      {
+        name: 'Bruno',
+        book: 'DevOps',
+        price: '100'
+      }
+    ]
+  };
+
+  removeAuthor = index => {
+    const  {authors} = this.state;
+    this.setState({
+      authors: authors.filter((author, position) => {
+        return position !== index;
+      })
+    });
+  };
+
+  submitListener = author => {
+    this.setState({ authors:[...this.state.authors, author]});
+  }
+
+  render() {
+    return (
+        <Fragment>
+          <Header />
+          <div className="container mb-10">
+            <Table authors={this.state.authors} removeAuthor = {this.removeAuthor} />
+          </div>
+          <Form submitListener={this.submitListener} />
+        </Fragment>
+    );
+  };
 }
 
 export default App;
